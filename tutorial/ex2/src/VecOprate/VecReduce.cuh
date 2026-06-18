@@ -43,6 +43,7 @@ inline void testReduce(int size) {
 		h_data[i] = 1.0f;
 	}
 
+	// CPU GPU同步计算
 	cudaMemcpy(d_data, h_data, bytes, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_output, h_output, bytes, cudaMemcpyHostToDevice);
 
@@ -55,6 +56,20 @@ inline void testReduce(int size) {
 
 	CUDA_CHECK(cudaGetLastError());
 	cudaMemcpy(h_output, d_output, bytes, cudaMemcpyDeviceToHost);
+
+	// 异步流
+	cudaStream_t stream;
+	cudaStreamCreate(&stream);
+
+	cudaMemcpyAsync(d_data, h_data, bytes, cudaMemcpyHostToDevice, stream);
+	cudaMemcpyAsync(d_output, h_output, bytes, cudaMemcpyHostToDevice, stream);
+
+	vectorReduce<<<grid, block, sem_bytes, stream>>>(d_data, d_output, size);
+
+	cudaMemcpyAsync(h_output, d_output, bytes, cudaMemcpyDeviceToHost, stream);
+	cudaStreamSynchronize(stream);
+	cudaStreamDestroy(stream);
+
 
 	float final_sum = 0.0f;
 	for(int i = 0; i < grid.x; i++) {

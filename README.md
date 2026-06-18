@@ -19,3 +19,5 @@
 规约
 
 Grid-stride Loop
+
+异步传输与计算重叠

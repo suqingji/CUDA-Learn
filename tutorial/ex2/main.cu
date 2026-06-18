@@ -23,6 +23,6 @@ int main() {
 	// cpu_end = std::chrono::high_resolution_clock::now();
 	// cpu_ms = std::chrono::duration<float, std::milli>(cpu_end - cpu_start).count();
 	// printf("CPU time: %.4f ms\n", cpu_ms);
-	testVecSAXPY(N);
+	// testVecSAXPY(N);
 	return 0;
 }
