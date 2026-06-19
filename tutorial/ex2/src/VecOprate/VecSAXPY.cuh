@@ -8,7 +8,7 @@
 #include <cuda_runtime.h>
 #include <cstdio>
 #include <chrono>
-#include "src/Tools.cuh"
+#include "../Tools.cuh"
 
 __global__ static void VecSAXPY(const float alpha, const float* A, const float* B, float* C, int N) {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;

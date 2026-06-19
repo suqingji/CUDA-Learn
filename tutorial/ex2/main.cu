@@ -6,10 +6,10 @@
 
 
 int main() {
-	const int N = 1e9;  // 1M 元素
+	const int N = 5e8;  // 1M 元素
 
 	testVecadd(N);
-	testReduce(N);
+	// testReduce(N);
 	// auto cpu_start = std::chrono::high_resolution_clock::now();
 	// VectorDot(N);
 	// cudaDeviceSynchronize();

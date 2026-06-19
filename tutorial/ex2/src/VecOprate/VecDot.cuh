@@ -7,7 +7,7 @@
 #include <cuda_runtime.h>
 #include <cstdio>
 #include <chrono>
-#include "src/Tools.cuh"
+#include "../Tools.cuh"
 
 __global__ static void VecDot(const float* A, const float* B, float* C, int N) {
 	extern __shared__ float semm[];

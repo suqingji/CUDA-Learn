@@ -7,7 +7,7 @@
 #include <cuda_runtime.h>
 #include <cstdio>
 #include <chrono>
-#include "src/Tools.cuh"
+#include "../Tools.cuh"
 
 __global__ static void vectorAdd(const float* a, const float* b, float* c, int n) {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -70,11 +70,25 @@ inline void testVecadd(int size) {
 	int blockSize = 256;
 	dim3 grid((size + blockSize - 1) / blockSize, 1, 1);
 	dim3 block(blockSize, 1, 1);
-
-
-	cudaEventRecord(kernel_start);
+	// ==========================================
+	// 1. 预热 GPU (Warm-up)
+	// 忽略这次执行的时间，让 GPU 状态初始化完毕并切换到最高性能模式
+	// ==========================================
 	vectorAdd<<<grid, block>>>(d_a, d_b, d_c, size);
+	cudaDeviceSynchronize(); // 确保预热完成
+
+	// ==========================================
+	// 2. 循环多次测量求平均 (Multiple runs)
+	// ==========================================
+	int num_runs = 100; // 运行 100 次以摊薄开销
+	cudaEventRecord(kernel_start);
+
+	for (int i = 0; i < num_runs; i++) {
+		vectorAdd<<<grid, block>>>(d_a, d_b, d_c, size);
+	}
+
 	cudaEventRecord(kernel_stop);
+	cudaEventSynchronize(kernel_stop);
 
 
 	CUDA_CHECK(cudaGetLastError());
@@ -87,9 +101,13 @@ inline void testVecadd(int size) {
 	cudaEventElapsedTime(&gpu_total_ms, start, stop);
 	cudaEventElapsedTime(&kernel_ms, kernel_start, kernel_stop);
 
-	printf("GPU kernel time: %.4f ms\n", kernel_ms);
+
+
+	float kernel_ms_avg = kernel_ms / num_runs;
+
+	printf("GPU kernel time: %.4f ms\n", kernel_ms_avg);
 	printf("GPU total time (with memcpy): %.4f ms\n", gpu_total_ms);
-	printf("Speedup (kernel only): %.1fx\n", cpu_ms / kernel_ms);
+	printf("Speedup (kernel only): %.1fx\n", cpu_ms / kernel_ms_avg);
 	printf("Speedup (end-to-end): %.1fx\n", cpu_ms / gpu_total_ms);
 
 	for (int i = 0; i < size; i++) {
@@ -99,7 +117,17 @@ inline void testVecadd(int size) {
 		}
 	}
 	printf("Vector addition completed successfully!\n");
+
+	// ========== 计算有效带宽 ==========
+	// 向量加法读 2 个 float、写 1 个 float = 12 bytes/element
+
+	float bandwidth_gb = (3.0f * bytes) / (kernel_ms_avg * 1e-3f) / 1e9f;
+	printf("Effective bandwidth: %.1f GB/s\n", bandwidth_gb);
 	// 释放
+	cudaEventDestroy(start);
+	cudaEventDestroy(stop);
+	cudaEventDestroy(kernel_start);
+	cudaEventDestroy(kernel_stop);
 	free(h_a); free(h_b); free(h_c); free(h_C_cpu);
 	cudaFree(d_a); cudaFree(d_b); cudaFree(d_c);
 }

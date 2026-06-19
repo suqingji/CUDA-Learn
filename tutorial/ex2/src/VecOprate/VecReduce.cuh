@@ -8,7 +8,7 @@
 #include <cuda_runtime.h>
 #include <cstdio>
 #include <chrono>
-#include "src/Tools.cuh"
+#include "../Tools.cuh"
 
 __global__ static void vectorReduce(const float* input, float* output, int n) {
 	extern __shared__ float smem[];
