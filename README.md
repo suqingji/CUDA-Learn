@@ -52,17 +52,25 @@ https://suqingji.github.io/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-
 
 
 
+### lesson：ex4，性能优化实操，Reduce算子
+
+http://localhost:4321/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-cuda%E7%BC%96%E7%A8%8B%E4%B8%8E%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/31-cuda-reduce%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/
+
+从 V0 到 V7，每一步优化都针对一个具体的性能瓶颈：
+
+1. **Warp Divergence（初步）**：用 strided index 替换 `tid % (2*s) == 0` 判断，让完整 Warp 进入/跳过分支（V1）
+2. **Bank Conflict + Warp Divergence（彻底）**：反转步长方向，从 `blockDim/2` 逐步减半，一次性解决两类问题（V2）
+3. **空闲线程**：每线程处理 2 个元素，减少 Block 数量，提升线程利用率（V3）
+4. **多余同步**：Warp 内天然同步，展开最后 5 轮可以省去 `__syncthreads()`（V4）
+5. **循环开销**：模板参数让编译器删除无用分支，生成紧凑的直线代码（V5）
+6. **访存层次**：Warp Shuffle 直接在寄存器间通信，比 Shared Memory 更快（V6）
+7. **带宽效率**：`float4` 减少指令数，Grid Stride Loop 最大化 GPU 占用率（V7）
+
+理解这些优化思路，不仅对 Reduce 有用——**在几乎所有 Memory-Bound Kernel 的设计中，同样的思路都会反复出现**。
 
 
 
-
-
-
-
-
-
-
-
+在RTX4060这个轻量级显卡上测试，V7版本甚至更慢，不如原教程文档中A100效果，可能是窄位宽、大缓存、少 SM 的显卡上，**简单粗暴的代码往往比花哨的优化跑得更快**
 
 
 
