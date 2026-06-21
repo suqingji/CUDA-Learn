@@ -6,11 +6,17 @@
 
 ## tutorial
 
+该部分参考https://suqingji.github.io/AI-Infra-Notebook/
+
 ### lesson 1: ex1，感受CUDA
+
+https://suqingji.github.io/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-cuda%E7%BC%96%E7%A8%8B%E4%B8%8E%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/cuda%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/
 
 向量相加
 
 ### lesson 2: ex2，CUDA 基础入门
+
+https://suqingji.github.io/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-cuda%E7%BC%96%E7%A8%8B%E4%B8%8E%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/%E7%AC%AC1%E7%AB%A0-cuda%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/
 
 核函数
 
@@ -25,6 +31,8 @@ Grid-stride Loop
 性能分析：带宽、算数强度，带宽利用率
 
 ### lesson: ex3，CUDA进阶
+
+https://suqingji.github.io/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-cuda%E7%BC%96%E7%A8%8B%E4%B8%8E%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/%E7%AC%AC2%E7%AB%A0-cuda%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%9F%BA%E7%A1%80/
 
 写出能跑的 CUDA 代码只是起点，写出跑得快的代码才是 AI Infra 工程师的核心能力。本章建立 CUDA 性能优化的核心方法论。
 
