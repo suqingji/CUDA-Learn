@@ -54,7 +54,7 @@ https://suqingji.github.io/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-
 
 ### lesson：ex4，性能优化实操，Reduce算子
 
-http://localhost:4321/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-cuda%E7%BC%96%E7%A8%8B%E4%B8%8E%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/31-cuda-reduce%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/
+https://suqingji.github.io/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-cuda%E7%BC%96%E7%A8%8B%E4%B8%8E%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/%E7%AC%AC3%E7%AB%A0-%E7%BB%8F%E5%85%B8%E7%AE%97%E5%AD%90%E5%AE%9E%E7%8E%B0-reduce/
 
 从 V0 到 V7，每一步优化都针对一个具体的性能瓶颈：
 
@@ -71,6 +71,38 @@ http://localhost:4321/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-cuda%
 
 
 在RTX4060这个轻量级显卡上测试，V7版本甚至更慢，不如原教程文档中A100效果，可能是窄位宽、大缓存、少 SM 的显卡上，**简单粗暴的代码往往比花哨的优化跑得更快**
+
+
+
+### lesson：ex5，性能优化实操，GEMM算子
+
+https://suqingji.github.io/AI-Infra-Notebook/guides/%E6%A8%A1%E5%9D%97%E4%BA%8C-cuda%E7%BC%96%E7%A8%8B%E4%B8%8E%E7%AE%97%E5%AD%90%E4%BC%98%E5%8C%96/%E7%AC%AC4%E7%AB%A0-%E7%BB%8F%E5%85%B8%E7%AE%97%E5%AD%90%E5%AE%9E%E7%8E%B0-gemm/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
